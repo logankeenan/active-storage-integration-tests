@@ -16,4 +16,18 @@ class ProfileIntegrationTest < ActionDispatch::IntegrationTest
 
 		assert_equal ActiveStorage::Attachment.count, 1
 	end
+
+	test 'that a profile picture can be removed ' do
+		profile = profiles(:remove_existing_profile_picture)
+		profile.profile_picture.attach(io: File.open(File.join(Rails.root + "test", 'picture_one.jpg')), filename: 'picture_one.JPG', content_type: 'image/jpeg')
+		profile.save!
+
+		visit edit_profile_path(profile)
+
+		find(:css, "#profile_remove_existing_profile_picture").set(true)
+
+		click_button 'Update Profile'
+
+		assert_equal ActiveStorage::Attachment.count, 0
+	end
 end

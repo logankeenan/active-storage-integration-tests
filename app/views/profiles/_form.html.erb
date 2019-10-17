@@ -16,6 +16,11 @@
         <%= form.text_field :name %>
     </div>
 
+    <% if profile.profile_picture.attached? %>
+        <%= form.label :remove_existing_profile_picture %>
+        <%= form.check_box :remove_existing_profile_picture %>
+    <% end %>
+
     <div class="field">
         <%= form.label :profile_picture %>
         <%= form.file_field :profile_picture %>
